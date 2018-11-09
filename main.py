@@ -30,9 +30,12 @@ def init():
 	id=0
 	for file in glob.glob("*.desktop"):
 		entry=entryhandler.DesktopEntry(filename=file)
-		apps.update({entry.getExec():{'Name': entry.getName(), 'Icon':'system' + str(ic.getIconPath(entry.getIcon())), 'Exec':'xiwi -T '+entry.getExec().split('%',1)[0], 'id':id}})
+		apps.update({entry.getName():{'Name': entry.getName(), 'Icon':'system' + str(ic.getIconPath(entry.getIcon())), 'Exec':'xiwi -T '+entry.getExec().split('%',1)[0], 'id':id}})
 		id=id+1
-	apps = [apps[a] for a in apps]
+	apps = [apps[app] for app in apps]
+	names = [app['Name'] for app in apps]
+	apps = [x for _, x in sorted(zip(names,apps), key=lambda pair: pair[0])]
+	print(apps)
 	for app in apps:
 		menu.write("<li><a class='name' href='index.html?id=" + str(app['id']) + "' onclick='closeWindow()'><img class='icon' height='48' width='48' src='" + app['Icon'] + "'>" +app['Name'] + '</a></li>')
 	menu.write('</div></body>')
