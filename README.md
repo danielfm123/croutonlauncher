@@ -20,3 +20,5 @@ ln -s / system
 6. Be sure to have already installed the crouton extension for chromeos and the xiwi and extension targets in your chroot.
 7. Pin the chrome extention on your shelf.
 8. Have Fun.
+
+edit crlauncher and place on /usr/local/bin

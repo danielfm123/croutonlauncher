@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 # Configuration happens here
-icontheme='gnome'
+icontheme='kde'
 # End of Configuration
 import os
 import sys
@@ -14,11 +14,12 @@ import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
 workingdirectory=os.getcwd()
 i = ic.IconTheme()
-i.parse('/usr/share/icons/gnome/index.theme')
+i.parse('/usr/share/icons/breeze/index.theme')
 if not os.path.exists('system'):
 	os.symlink("/", "system")
-apps = []
+apps = {}
 def init():
+	global apps
 	try:
 		os.remove('index.html')
 	except:
@@ -29,8 +30,9 @@ def init():
 	id=0
 	for file in glob.glob("*.desktop"):
 		entry=entryhandler.DesktopEntry(filename=file)
-		apps.append({'Name': entry.getName(), 'Icon':'system' + str(ic.getIconPath(entry.getIcon())), 'Exec':'xiwi '+entry.getExec().split('%',1)[0], 'id':id})				
+		apps.update({entry.getExec():{'Name': entry.getName(), 'Icon':'system' + str(ic.getIconPath(entry.getIcon())), 'Exec':'xiwi -T '+entry.getExec().split('%',1)[0], 'id':id}})
 		id=id+1
+	apps = [apps[a] for a in apps]
 	for app in apps:
 		menu.write("<li><a class='name' href='index.html?id=" + str(app['id']) + "' onclick='closeWindow()'><img class='icon' height='48' width='48' src='" + app['Icon'] + "'>" +app['Name'] + '</a></li>')
 	menu.write('</div></body>')
