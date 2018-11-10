@@ -21,3 +21,8 @@ ln -s / system
 7. Pin the chrome extention on your shelf.
 8. Have Fun.
 9. edit crlauncher and place on /usr/local/bin on the chrome root, not chroot
+
+
+if you want autostart follow this instrucions from https://www.maketecheasier.com/autostart-crouton-chromeos/
+and set as DE enter-chroot
+as command line on boot the path to the launcher
