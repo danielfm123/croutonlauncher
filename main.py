@@ -12,6 +12,9 @@ import cgi
 from urllib.parse import urlparse
 import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
+import re
+
+
 workingdirectory=os.getcwd()
 i = ic.IconTheme()
 i.parse('/usr/share/icons/breeze/index.theme')
@@ -30,7 +33,9 @@ def init():
 	id=0
 	for file in glob.glob("*.desktop"):
 		entry=entryhandler.DesktopEntry(filename=file)
-		apps.update({entry.getName():{'Name': entry.getName(), 'Icon':'system' + str(ic.getIconPath(entry.getIcon())), 'Exec':'xiwi -T '+entry.getExec().split('%',1)[0], 'id':id}})
+		iconPath = str(ic.getIconPath(entry.getIcon()))
+		if None != iconPath and bool(re.search("png$|svg$",iconPath)):
+			apps.update({entry.getName():{'Name': entry.getName(), 'Icon':'system' + str(ic.getIconPath(entry.getIcon())), 'Exec':'xiwi -T '+entry.getExec().split('%',1)[0], 'id':id}})
 		id=id+1
 	apps = [apps[app] for app in apps]
 	names = [app['Name'] for app in apps]
