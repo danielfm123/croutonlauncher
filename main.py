@@ -14,7 +14,7 @@ import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
 workingdirectory=os.getcwd()
 i = ic.IconTheme()
-i.parse('/usr/share/icons/breeze/index.theme')
+i.parse('/usr/share/icons/Humanity/index.theme')
 if not os.path.exists('system'):
 	os.symlink("/", "system")
 apps = {}
