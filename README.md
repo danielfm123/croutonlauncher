@@ -25,7 +25,7 @@ ln -s / system
 i recomend to place the extension pined on the menu and configure as not a tab.
 
 # autostart 
-(adapted from )
+(adapted from https://github.com/dnschneid/crouton/wiki/Autostart-crouton-chroot-at-ChromeOS-startup)
 1. from chroot copy /opt/croutonlauncher/autostart to ~/Downloads
 ```
 cp -r /opt/croutonlauncher/autostart ~/Downloads
