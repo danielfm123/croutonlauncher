@@ -8,7 +8,7 @@ import glob
 import http.server
 import socketserver
 import logging
-[Bimport cgi
+import cgi
 from urllib.parse import urlparse
 import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
