@@ -48,5 +48,7 @@ sudo cp ~/Downloads/local/crouton.init /usr/local
 sudo cp ~/Downloads/init/crouton.conf /etc/init
 sudo cp ~/Downloads/init/mnt-crouton.conf /etc/init
 ```
+Now you can delete Donwnloads/croutonlauncher
+
 
 6. restart and proffit from port 8000
