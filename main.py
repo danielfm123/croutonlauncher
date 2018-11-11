@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 # Configuration happens here
-icontheme='kde'
+icontheme='Humanity'
 # End of Configuration
 import os
 import sys
@@ -17,7 +17,10 @@ import re
 
 workingdirectory=os.getcwd()
 i = ic.IconTheme()
-i.parse('/usr/share/icons/Humanity/index.theme')
+i.parse('/usr/share/icons/{}/index.theme'.format(icontheme))
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dir_path)
+
 if not os.path.exists('system'):
 	os.symlink("/", "system")
 apps = {}
