@@ -14,12 +14,12 @@ import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
 import re
 
+workingdirectory = os.path.dirname(os.path.realpath(__file__))
+print(workingdirectory)
+os.chdir(workingdirectory)
 
-workingdirectory=os.getcwd()
 i = ic.IconTheme()
 i.parse('/usr/share/icons/{}/index.theme'.format(icontheme))
-dir_path = os.path.dirname(os.path.realpath(__file__))
-os.chdir(dir_path)
 
 if not os.path.exists('system'):
 	os.symlink("/", "system")
