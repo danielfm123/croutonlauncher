@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 # Configuration happens here
-icontheme='Humanity'
 # End of Configuration
 import os
 import sys
@@ -18,8 +17,15 @@ workingdirectory = os.path.dirname(os.path.realpath(__file__))
 print(workingdirectory)
 os.chdir(workingdirectory)
 
+iconthemes=['Humanity','breeze','gnome']
+
+for icontheme in iconthemes:
+	icontheme_path = '/usr/share/icons/{}/index.theme'.format(icontheme)
+	if os.path.isfile(icontheme_path):
+		break
+print(icontheme_path)
 i = ic.IconTheme()
-i.parse('/usr/share/icons/{}/index.theme'.format(icontheme))
+i.parse(icontheme_path)
 
 if not os.path.exists('system'):
 	os.symlink("/", "system")
