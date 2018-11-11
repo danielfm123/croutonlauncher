@@ -60,7 +60,7 @@ START_DE=enter-chroot
 ## below 'sleep infinity' commonly used with 
 ## START_DE=enter-chroot (above) for headless operations, etc.
 #CHROOT_APP=sleep infinity
-CHROOT_APP=/usr/bin/python3 /home/dfischer/croutonlauncher/main.py
+CHROOT_APP=/usr/bin/python3 /opt/croutonlauncher/main.py
 
 ###
 ### XMETHOD: Override the default XMETHOD for this session - if installed, some examples shown
