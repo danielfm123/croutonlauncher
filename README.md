@@ -8,6 +8,8 @@ sudo apt-get install python3 python3-xdg git
 ```
 2. Download the Software on chroot /opt
 ```
+sudo chmod 777 /opt
+cd /opt
 git clone https://github.com/danielfm123/croutonlauncher.git
 sudo chmof 777 /opt/croutonlauncher
 cd croutonlauncher
@@ -26,6 +28,7 @@ i recomend to place the extension pined on the menu and configure as not a tab.
 
 # autostart 
 (adapted from https://github.com/dnschneid/crouton/wiki/Autostart-crouton-chroot-at-ChromeOS-startup)
+
 1. from chroot copy /opt/croutonlauncher/autostart to ~/Downloads
 ```
 cp -r /opt/croutonlauncher/autostart ~/Downloads
@@ -46,4 +49,4 @@ sudo cp ~/Downloads/init/crouton.conf /etc/init
 sudo cp ~/Downloads/init/mnt-crouton.conf /etc/init
 ```
 
-6. restart and proffit
+6. restart and proffit from port 8000
