@@ -61,18 +61,17 @@ shell
 
 3. make root fs writable
 ```
-sudo sh ~/Downloads/rw-rootfs
+sudo sh ~/Downloads/autostart/rw-rootfs
 ```
 4. edit ~/Downloads/local/crouton.init on line 33 to put you chroot name
 default is bionic, might be xenial too
 
 5. place files on system folders
 ```
-sudo cp ~/Downloads/local/crouton.init /usr/local
-sudo cp ~/Downloads/init/crouton.conf /etc/init
-sudo cp ~/Downloads/init/mnt-crouton.conf /etc/init
+sudo cp ~/Downloads/autostart/local/crouton.init /usr/local
+sudo cp ~/Downloads/autostart/init/crouton.conf /etc/init
+sudo cp ~/Downloads/autostart/init/mnt-crouton.conf /etc/init
 ```
-Now you can delete Donwnloads/croutonlauncher
-
+Now you can delete Donwnloads/autostart
 
 6. restart and proffit from port 8000 or crouton extension
