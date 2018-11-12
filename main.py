@@ -45,7 +45,13 @@ def init():
 		name =  entry.getName()
 		iconPath = str(ic.getIconPath(entry.getIcon()))
 		executable = entry.getExec().split('%',1)[0]
-		if None != iconPath and bool(re.search("png$|svg$",iconPath)) and not bool(re.search("sbin|pkexec|^none", entry.getExec())):
+		try:
+			isTerminal = entry.content['Desktop Entry']['Terminal'] == 'true'
+		except:
+			isTerminal = False
+		if None != iconPath and bool(re.search("png$|svg$",iconPath)) and \
+				not bool(re.search("sbin|pkexec|^none", entry.getExec())) and \
+				not isTerminal:
 			apps.update({name:{'Name':name, 'Icon':'system' + iconPath, 'Exec': executable, 'id':id}})
 			id=id+1
 	apps = [apps[app] for app in apps]
