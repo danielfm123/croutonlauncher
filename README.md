@@ -1,3 +1,7 @@
+# Requerimients
+
+Having the chromebook in developer mode and crouton executable on Downloads folder https://github.com/dnschneid/crouton
+
 # Crouton Launcher
 
 fork from https://github.com/jmaris/croutonlauncher
@@ -5,8 +9,10 @@ fork from https://github.com/jmaris/croutonlauncher
 ## Run Crouton apps as normal ChromeOS tabs on boot
 
 This was tested using crouton installed with this commands:
+open a terminal with ctrl + alt + t
 ```
-sudo sh ./crouton -t xiwi,keyboard,extension,cli-extra,audio -r bionic
+shell
+sudo sh ~/Downloads/crouton -t xiwi,keyboard,extension,cli-extra,audio -r bionic
 ```
 
 ## Install Menu:
