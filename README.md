@@ -1,8 +1,18 @@
 #Crouton Launcher
-##Run Crouton apps as normal ChromeOS windows
+##Run Crouton apps as normal ChromeOS tabs on boot
+
+This was tested using crouton installed with this commands:
+```
+sudo sh ./crouton -t xiwi,keyboard,extension,cli-extra,audio -r bionic
+```
 
 #Install :
-1. Get the dependencies :
+0.enter to the chroot
+```
+sudo enter-chroot
+```
+
+1. Get the dependencies:
 ```
 sudo apt-get install python3 python3-xdg git
 ```
@@ -11,20 +21,19 @@ sudo apt-get install python3 python3-xdg git
 sudo chmod 777 /opt
 cd /opt
 git clone https://github.com/danielfm123/croutonlauncher.git
-sudo chmof 777 /opt/croutonlauncher
+sudo chmod 755 /opt/croutonlauncher
 cd croutonlauncher
-rm index.html
 ```
-3. Make a Systemlink (This is because the python web server needs to be able to serve content above the directory it is running in, this is not obligatory but you will not see icons if you do not create the link)
-```
-ln -s / system
-```
-4. Install the Chrome Extention provided in the repo by dragging to extensions menu in chrome, dots/more tools/extensions (remember to check developer mode)
+3. Install the Chrome Extention provided in the repo by dragging to extensions menu in chrome, dots/more tools/extensions (remember to check developer mode)
 
-5. Now you can launch executing main.py
+4. Now you can launch executing main.py
+```
+cd /opt/croutonlauncher
+./main.py
+```
 
 6. open localhost:8000 or launche the chrome extension.
-i recomend to place the extension pined on the menu and configure as not a tab.
+I Recomend to place the extension pined on the menu and configure as not a tab.
 
 # autostart 
 (adapted from https://github.com/dnschneid/crouton/wiki/Autostart-crouton-chroot-at-ChromeOS-startup)
@@ -34,13 +43,17 @@ i recomend to place the extension pined on the menu and configure as not a tab.
 cp -r /opt/croutonlauncher/autostart ~/Downloads
 ```
 2. open a shell (outside chroot)
-3. make / writable
+press ctrl + alt + t then open a shell (not a crosh)
 ```
-sudo  ~/Downloads/rw-rootfs
+shell
 ```
-4. configure ~/Downloads/local/crouton.init
-this file contains the configurations
-modify line 33 writing the name of your chroot, default is bionic, might be xenial too
+
+3. make root fs writable
+```
+sudo sh ~/Downloads/rw-rootfs
+```
+4. edit ~/Downloads/local/crouton.init on line 33 to put you chroot name
+default is bionic, might be xenial too
 
 5. place files on system folders
 ```
@@ -51,4 +64,4 @@ sudo cp ~/Downloads/init/mnt-crouton.conf /etc/init
 Now you can delete Donwnloads/croutonlauncher
 
 
-6. restart and proffit from port 8000
+6. restart and proffit from port 8000 or crouton extension
