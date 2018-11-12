@@ -1,12 +1,14 @@
-#Crouton Launcher
-##Run Crouton apps as normal ChromeOS tabs on boot
+# Crouton Launcher
+
+## Run Crouton apps as normal ChromeOS tabs on boot
 
 This was tested using crouton installed with this commands:
 ```
 sudo sh ./crouton -t xiwi,keyboard,extension,cli-extra,audio -r bionic
 ```
 
-#Install :
+## Install Menu:
+
 0.enter to the chroot
 ```
 sudo enter-chroot
@@ -35,7 +37,8 @@ cd /opt/croutonlauncher
 6. open localhost:8000 or launche the chrome extension.
 I Recomend to place the extension pined on the menu and configure as not a tab.
 
-# autostart 
+## Autostart on boot
+ 
 (adapted from https://github.com/dnschneid/crouton/wiki/Autostart-crouton-chroot-at-ChromeOS-startup)
 
 1. from chroot copy /opt/croutonlauncher/autostart to ~/Downloads
