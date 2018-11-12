@@ -63,6 +63,8 @@ shell
 ```
 sudo sh ~/Downloads/autostart/rw-rootfs
 ```
+restart the chromebook
+
 4. edit ~/Downloads/local/crouton.init on line 33 to put you chroot name
 default is bionic, might be xenial too
 
