@@ -49,11 +49,12 @@ class Apps:
 
 		#Read deskto files
 		files =  glob.glob(apps_dir+"*.desktop")
-		files = sorted(files, key = lambda s: s.lower() )
+		entrys = [entryhandler.DesktopEntry(filename=file) for file in files]
+		entrys = sorted(entrys, key = lambda e: e.getName().lower())
 		id=0
-		for file in files:
-			entry=entryhandler.DesktopEntry(filename=file)
+		for entry in entrys:
 			name =  entry.getName()
+			#print(name)
 			iconPath = str(ic.getIconPath(entry.getIcon()))
 			executable = entry.getExec().split('%',1)[0]
 			try:
@@ -73,7 +74,7 @@ class Apps:
 		#Create HTML
 		for app in range(id):
 			app = self.action[str(app)]
-			print(app)
+			#print(app)
 			menu.write("<li><a class='name' href='index.html?id=" + app['id'] +
 					   "' onclick='closeWindow()'><img class='icon' height='48' width='48' src='" +
 					   app['Icon'] + "'>" +
