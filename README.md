@@ -1,6 +1,10 @@
+[Video of the result](https://www.youtube.com/watch?v=z-rkn5SXD4k)
+
 # Requerimients
 
 Having the chromebook in developer mode and crouton executable on Downloads folder https://github.com/dnschneid/crouton
+
+I installed with: sudo sh ~/Downloads/crouton -t xiwi,extension,keyboard,cli-extra -r bionic
 
 # Crouton Launcher
 
@@ -32,14 +36,12 @@ sudo chmod 777 /opt
 cd /opt
 git clone https://github.com/danielfm123/croutonlauncher.git
 sudo chmod 755 /opt/croutonlauncher
-cd croutonlauncher
 ```
 3. Install the Chrome Extention provided in the repo by dragging to extensions menu in chrome, dots/more tools/extensions (remember to check developer mode)
 
 4. Now you can launch executing main.py
 ```
-cd /opt/croutonlauncher
-./main.py
+/opt/croutonlauncher/main.py
 ```
 
 6. open localhost:8000 or launche the chrome extension.
