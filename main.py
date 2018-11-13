@@ -3,6 +3,7 @@
 # End of Configuration
 import os
 import sys
+import json
 import glob
 import http.server
 import socketserver
@@ -13,77 +14,120 @@ import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
 import re
 
-workingdirectory = os.path.dirname(os.path.realpath(__file__))
-print(workingdirectory)
-os.chdir(workingdirectory)
+with open('options.json', 'r') as f:
+	options = json.load(f)
 
-iconthemes=['Humanity','breeze','gnome']
+class Apps:
+	def __init__(self):
+		apps_dir = '/usr/share/applications/'
+		self.action = {}
 
-for icontheme in iconthemes:
-	icontheme_path = '/usr/share/icons/{}/index.theme'.format(icontheme)
-	if os.path.isfile(icontheme_path):
-		break
-print(icontheme_path)
-i = ic.IconTheme()
-i.parse(icontheme_path)
+		if not os.path.exists('system'):
+			os.symlink("/", "system")
 
-if not os.path.exists('system'):
-	os.symlink("/", "system")
-apps = {}
-def init():
-	global apps
-	try:
-		os.remove('index.html')
-	except:
-		print("Old Menu file could not be removed")
-	menu = open('index.html', 'a')
-	menu.write("<head><script src='list.min.js'></script><link rel='stylesheet' type='text/css' href='style.css'><script language='javascript' type='text/javascript'>\n function closeWindow() { window.open('','_parent',''); window.close(); }</script><script language='javascript' type='text/javascript'>function startList() {var options = {valueNames: [ 'name']};var userList = new List('users', options);}</script></head><body onload='startList()'><div id='users'><ul class='list'>")
-	os.chdir('/usr/share/applications')
-	id=0
-	for file in glob.glob("*.desktop"):
-		entry=entryhandler.DesktopEntry(filename=file)
-		name =  entry.getName()
-		iconPath = str(ic.getIconPath(entry.getIcon()))
-		executable = entry.getExec().split('%',1)[0]
+		iconthemes = ['Humanity', 'breeze', 'gnome']
+		for icontheme in iconthemes:
+			icontheme_path = '/usr/share/icons/{}/index.theme'.format(icontheme)
+			if os.path.isfile(icontheme_path):
+				break
+		print(icontheme_path)
+		self.icons = ic.IconTheme()
+		self.icons.parse(icontheme_path)
+
 		try:
-			isTerminal = entry.content['Desktop Entry']['Terminal'] == 'true'
+			os.remove('index.html')
 		except:
-			isTerminal = False
-		if None != iconPath and bool(re.search("png$|svg$",iconPath)) and \
-				not bool(re.search("sbin|pkexec|^none", entry.getExec())) and \
-				not isTerminal:
-			apps.update({name:{'Name':name, 'Icon':'system' + iconPath, 'Exec': executable, 'id':id}})
-			id=id+1
-	apps = [apps[app] for app in apps]
-	names = [app['Name'] for app in apps]
-	apps = [x for _, x in sorted(zip(names,apps), key=lambda pair: pair[0])]
-	for app in apps:
-		menu.write("<li><a class='name' href='index.html?id=" +
-				   str(app['id']) +
-				   "' onclick='closeWindow()'><img class='icon' height='48' width='48' src='" +
-				   app['Icon'] + "'>" +
-				   app['Name'] + '</a></li>')
-	menu.write('</div></body>')
-	menu.close()
+			print("Old Menu file could not be removed")
 
-def serve():
-	os.chdir(workingdirectory)
-	PORT = 8000
+		menu = open('index.html', 'a')
+		menu.write("<head>"
+				   "<script src='list.min.js'></script>\n"
+				   "<link rel='stylesheet' type='text/css' href='style.css'>\n"
+				   "<script language='javascript' type='text/javascript'>\n function closeWindow() { window.open('','_parent',''); window.close(); }</script>\n"
+				   "<script language='javascript' type='text/javascript'>function startList() {var options = {valueNames: [ 'name']};var userList = new List('users', options);}</script>\n"
+				   "</head>\n"
+				   "<body onload='startList()'>\n"
+				   "<div id='users'><ul class='list'>\n")
+
+		#Read deskto files
+		files =  glob.glob(apps_dir+"*.desktop")
+		files = sorted(files, key = lambda s: s.lower() )
+		for f in files:
+			print(f)
+		id=0
+		for file in files:
+			entry=entryhandler.DesktopEntry(filename=file)
+			name =  entry.getName()
+			iconPath = str(ic.getIconPath(entry.getIcon()))
+			executable = entry.getExec().split('%',1)[0]
+			try:
+				isTerminal = entry.content['Desktop Entry']['Terminal'] == 'true'
+			except:
+				isTerminal = False
+			if None != iconPath and bool(re.search("png$|svg$",iconPath)) and \
+					not bool(re.search("sbin|pkexec|^none", entry.getExec())) and \
+					not isTerminal:
+				self.action[str(id)] = {'Name':name,
+									  'Icon':'system' + iconPath,
+									  'Exec': executable,
+									  'id':str(id),
+									  'type': 'app'}
+				id = id + 1
+
+		#Create HTML
+		for app in range(id):
+			app = self.action[str(app)]
+			print(app)
+			menu.write("<li><a class='name' href='index.html?id=" + app['id'] +
+					   "' onclick='closeWindow()'><img class='icon' height='48' width='48' src='" +
+					   app['Icon'] + "'>" +
+					   app['Name'] + '</a></li>\n')
+
+		self.action['tabMode'] = {'type': 'param',
+								  'attr': 'newAppMode',
+								  'val':'tabMode'}
+		self.action['winMode'] = {'type': 'param',
+								  'attr': 'newAppMode',
+								  'val':'winMode'}
+
+		menu.write("<li><a href='index.html?id=winMode' onclick='closeWindow()'>Apps on New Window<a>")
+		menu.write("<li><a href='index.html?id=tabMode' onclick='closeWindow()'>Apps on New Tab<a>")
+		menu.write('</div></body>')
+		menu.close()
+
+
+class Server:
+
+	global options
+	global apps
 
 	class ServerHandler(http.server.SimpleHTTPRequestHandler):
-
 		def do_GET(self):
 			parsed_path = urlparse(self.path)
+
 			try:
 				params = dict([p.split('=') for p in parsed_path[4].split('&')])
 			except:
 				params = {}
-			if params:
-				for app in apps:
-					if str(app['id']) == str(params['id']).strip("/"):
-						command_line = 'xiwi -T ' + app['Exec']
-						print(app['Name'], " EXEC : " + command_line)
-						os.system(command_line+'&')
+			print(params)
+
+			if len(params) > 0:
+				param = str(params['id']).strip("/")
+				action = apps.action[param]
+				if action['type'] == 'app':
+					if options['newAppMode'] == 'winMode':
+						command_line = 'xiwi ' + action['Exec']
+					else:
+						command_line = 'xiwi -T ' + action['Exec']
+					print(action['Name'], " EXEC : " + command_line)
+					os.system(command_line+'&')
+				else:
+					attr = action['attr']
+					val = action['val']
+					options[attr] = val
+					with open('options.json', 'w') as file:
+						file.writelines(json.dumps(options))
+
 			http.server.SimpleHTTPRequestHandler.do_GET(self)
 
 		def do_POST(self):
@@ -92,15 +136,28 @@ def serve():
 				fp=self.rfile,
 				headers=self.headers,
 				environ={'REQUEST_METHOD':'POST',
-				     'CONTENT_TYPE':self.headers['Content-Type'],
-				     })
+					 'CONTENT_TYPE':self.headers['Content-Type'],
+					 })
 			for item in form.list:
 				logging.error(item)
 			http.server.SimpleHTTPRequestHandler.do_GET(self)
-	Handler = ServerHandler
-	httpd = socketserver.TCPServer(("", PORT), Handler)
-	print("serving at port", PORT)
-	httpd.serve_forever()
 
-init()
-serve()
+	def __init__(self):
+		pass
+
+	def launch(self,PORT):
+		httpd = socketserver.TCPServer(("", PORT), self.ServerHandler)
+		print("serving at port", PORT)
+		httpd.serve_forever()
+
+if __name__ == '__main__':
+	try:
+		workingdirectory = os.path.dirname(os.path.realpath(__file__))
+		os.chdir(workingdirectory)
+	except:
+		workingdirectory = os.getcwd()
+	print(workingdirectory)
+
+	apps = Apps()
+	server = Server()
+	server.launch(8002)
