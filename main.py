@@ -14,9 +14,6 @@ import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
 import re
 
-with open('options.json', 'r') as f:
-	options = json.load(f)
-
 class Apps:
 	def __init__(self):
 		apps_dir = '/usr/share/applications/'
@@ -157,6 +154,9 @@ if __name__ == '__main__':
 	except:
 		workingdirectory = os.getcwd()
 	print(workingdirectory)
+
+	with open('options.json', 'r') as f:
+		options = json.load(f)
 
 	apps = Apps()
 	server = Server()
