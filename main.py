@@ -27,10 +27,11 @@ class Apps:
 			icontheme_path = '/usr/share/icons/{}/index.theme'.format(icontheme)
 			if os.path.isfile(icontheme_path):
 				break
-		print(icontheme_path)
+		#print(icontheme_path)
 		self.icons = ic.IconTheme()
 		self.icons.parse(icontheme_path)
 
+        # Html header
 		try:
 			os.remove('index.html')
 		except:
@@ -49,8 +50,6 @@ class Apps:
 		#Read deskto files
 		files =  glob.glob(apps_dir+"*.desktop")
 		files = sorted(files, key = lambda s: s.lower() )
-		for f in files:
-			print(f)
 		id=0
 		for file in files:
 			entry=entryhandler.DesktopEntry(filename=file)
