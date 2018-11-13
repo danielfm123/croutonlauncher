@@ -87,8 +87,8 @@ class Apps:
 								  'attr': 'newAppMode',
 								  'val':'winMode'}
 
-		menu.write("<li><a href='index.html?id=winMode' onclick='closeWindow()'>Apps on New Window<a>")
-		menu.write("<li><a href='index.html?id=tabMode' onclick='closeWindow()'>Apps on New Tab<a>")
+		menu.write("<li><a href='index.html?id=winMode'>Apps on New Window<a>")
+		menu.write("<li><a href='index.html?id=tabMode'>Apps on New Tab<a>")
 		menu.write('</div></body>')
 		menu.close()
 
@@ -114,11 +114,10 @@ class Server:
 				if action['type'] == 'app':
 					if options['newAppMode'] == 'winMode':
 						command_line = 'xiwi ' + action['Exec']
-					else:
+					elif options['newAppMode'] == 'tabMode':
 						command_line = 'xiwi -T ' + action['Exec']
-					print(action['Name'], " EXEC : " + command_line)
 					os.system(command_line+'&')
-				else:
+				elif action['type'] == 'param':
 					attr = action['attr']
 					val = action['val']
 					options[attr] = val
