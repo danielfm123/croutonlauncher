@@ -27,7 +27,7 @@ class Apps:
 			icontheme_path = '/usr/share/icons/{}/index.theme'.format(icontheme)
 			if os.path.isfile(icontheme_path):
 				break
-		#print(icontheme_path)
+		print(icontheme_path)
 		self.icons = ic.IconTheme()
 		self.icons.parse(icontheme_path)
 
