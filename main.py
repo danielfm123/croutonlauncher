@@ -160,4 +160,4 @@ if __name__ == '__main__':
 
 	apps = Apps()
 	server = Server()
-	server.launch(8002)
+	server.launch(8000)
