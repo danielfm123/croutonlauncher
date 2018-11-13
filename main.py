@@ -14,6 +14,8 @@ import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
 import re
 
+#devel
+
 class Apps:
 	def __init__(self):
 		apps_dir = '/usr/share/applications/'
@@ -27,7 +29,7 @@ class Apps:
 			icontheme_path = '/usr/share/icons/{}/index.theme'.format(icontheme)
 			if os.path.isfile(icontheme_path):
 				break
-		print(icontheme_path)
+		#print(icontheme_path)
 		self.icons = ic.IconTheme()
 		self.icons.parse(icontheme_path)
 
