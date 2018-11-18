@@ -47,6 +47,11 @@ sudo chmod 755 /opt/croutonlauncher
 6. open localhost:8000 or launche the chrome extension.
 I Recomend to place the extension pined on the menu and configure as not a tab.
 
+If you just want to launch it from shell and not autostarting the menu,the command to launch from shell would be
+```
+sudo enter-chroot /opt/croutonlauncher/main.py &
+```
+
 # Autostart on boot
  
 adapted from https://github.com/dnschneid/crouton/wiki/Autostart-crouton-chroot-at-ChromeOS-startup
