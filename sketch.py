@@ -3,3 +3,4 @@ with open("index.html","r") as r:
 
 " ".join(a)
 
+"ahola {nombre}".format(nombre= "pene")
