@@ -14,6 +14,8 @@ import xdg.DesktopEntry as entryhandler
 import xdg.IconTheme as ic
 import re
 
+#devel
+
 class Apps:
 	def __init__(self):
 		apps_dir = '/usr/share/applications/'
