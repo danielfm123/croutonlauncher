@@ -21,7 +21,6 @@ class Apps:
 		self.action = {}
 		apps_dir = '/usr/share/applications/'
 
-
 		if not os.path.exists('system'):
 			os.symlink("/", "system")
 
@@ -33,15 +32,6 @@ class Apps:
 		self.icons = ic.IconTheme()
 		self.icons.parse(icontheme_path)
 
-        # Html header
-		try:
-			os.remove('index.html')
-		except:
-			print("Old Menu file could not be removed")
-
-		with open('index_template.html','r') as t:
-			template = t.readlines()
-			#template = ' '.join(template)
 
 		#Read deskto files
 		files =  glob.glob(apps_dir+"*.desktop")
@@ -78,18 +68,41 @@ class Apps:
 				"{Name}" \
 				"</a></li> \n".format_map(app)
 
+		html_items = html_items + '<li class="list-group-item">' \
+								  "<a class ='name' href='index.html?id=startx' onclick='closeWindow()'> " \
+								  "<img class ='icon' height='32' width='32' src='desktop.png' >" \
+								  "Launch Desktop " \
+								  "</a></li>\n"
+		html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#optionModal">Options</li>\n'
+
 		self.action['tabMode'] = {'type': 'param',
 								  'attr': 'newAppMode',
 								  'val':'tabMode'}
 		self.action['winMode'] = {'type': 'param',
 								  'attr': 'newAppMode',
 								  'val':'winMode'}
-		html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#optionModal">Launch Options</li>\n'
-		#html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#desktopModal">Launch Desktop</li> \n'
+		self.action['kde'] = {'type': 'param',
+								  'attr': 'desktop',
+								  'val':'startkde'}
+		self.action['xfce4'] = {'type': 'param',
+								  'attr': 'desktop',
+								  'val':'startxfce4'}
+		self.action['gnome'] = {'type': 'param',
+								  'attr': 'desktop',
+								  'val':'startgnome'}
+		self.action['startx'] = {'type': 'startx'}
+
+		with open('index_template.html','r') as t:
+			template = t.readlines()
 
 		for n in range(len(template)):
 			if(template[n] == '@apps@\n'):
 				template[n] = html_items
+
+		try:
+			os.remove('index.html')
+		except:
+			print("Old Menu file could not be removed")
 
 		with open('index.html','w+') as i:
 			for t in template:
@@ -103,7 +116,6 @@ class Server:
 	class ServerHandler(http.server.SimpleHTTPRequestHandler):
 		def do_GET(self):
 			parsed_path = urlparse(self.path)
-
 			try:
 				params = dict([p.split('=') for p in parsed_path[4].split('&')])
 			except:
@@ -127,6 +139,11 @@ class Server:
 					with open('options.json', 'w') as file:
 						file.writelines(json.dumps(options))
 					print('parameters updated')
+				elif action['type'] == 'startx':
+					print('Launching Desktop...')
+					command_line = 'xiwi ' + options['desktop']
+					print(command_line)
+					os.system(command_line + '&')
 
 			http.server.SimpleHTTPRequestHandler.do_GET(self)
 
