@@ -18,8 +18,9 @@ import re
 
 class Apps:
 	def __init__(self):
-		apps_dir = '/usr/share/applications/'
 		self.action = {}
+		apps_dir = '/usr/share/applications/'
+
 
 		if not os.path.exists('system'):
 			os.symlink("/", "system")
@@ -29,7 +30,6 @@ class Apps:
 			icontheme_path = '/usr/share/icons/{}/index.theme'.format(icontheme)
 			if os.path.isfile(icontheme_path):
 				break
-		#print(icontheme_path)
 		self.icons = ic.IconTheme()
 		self.icons.parse(icontheme_path)
 
@@ -39,15 +39,9 @@ class Apps:
 		except:
 			print("Old Menu file could not be removed")
 
-		menu = open('index.html', 'a')
-		menu.write("<head>"
-				   "<script src='list.min.js'></script>\n"
-				   "<link rel='stylesheet' type='text/css' href='style.css'>\n"
-				   "<script language='javascript' type='text/javascript'>\n function closeWindow() { window.open('','_parent',''); window.close(); }</script>\n"
-				   "<script language='javascript' type='text/javascript'>function startList() {var options = {valueNames: [ 'name']};var userList = new List('users', options);}</script>\n"
-				   "</head>\n"
-				   "<body onload='startList()'>\n"
-				   "<div id='users'><ul class='list'>\n")
+		with open('index_template.html','r') as t:
+			template = t.readlines()
+			#template = ' '.join(template)
 
 		#Read deskto files
 		files =  glob.glob(apps_dir+"*.desktop")
@@ -73,14 +67,17 @@ class Apps:
 									  'type': 'app'}
 				id = id + 1
 
+		html_items = ""
 		#Create HTML
 		for app in range(id):
 			app = self.action[str(app)]
-			#print(app)
-			menu.write("<li><a class='name' href='index.html?id=" + app['id'] +
-					   "' onclick='closeWindow()'><img class='icon' height='48' width='48' src='" +
-					   app['Icon'] + "'>" +
-					   app['Name'] + '</a></li>\n')
+			html_items = html_items + \
+				"<li class ='list-group-item' > " \
+				"<a class ='name' href='index.html?id={id}' onclick='closeWindow()'> " \
+				"<img class ='icon' height='48' width='48' src='{Icon}' >" \
+				"{Name}" \
+				"</a></li> \n".format_map(app)
+				#"< li > < a class ='name' href='index.html?id=0' onclick='closeWindow()' > < img class ='icon' height='48' width='48' src='system/usr/share/icons/hicolor/48x48/apps/Thunar.png' > Bulk Rename < / a > < / li >"
 
 		self.action['tabMode'] = {'type': 'param',
 								  'attr': 'newAppMode',
@@ -88,12 +85,16 @@ class Apps:
 		self.action['winMode'] = {'type': 'param',
 								  'attr': 'newAppMode',
 								  'val':'winMode'}
+		html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#desktopModal">Launch Desktop</li> \n'
+		html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#optionModal">Options</li>\n'
 
-		menu.write("<li><a href='index.html?id=winMode' onclick='closeWindow()'>Apps on New Window<a>")
-		menu.write("<li><a href='index.html?id=tabMode' onclick='closeWindow()'>Apps on New Tab<a>")
-		menu.write('</div></body>')
-		menu.close()
+		for n in range(len(template)):
+			if(template[n] == '@apps@\n'):
+				template[n] = html_items
 
+		with open('index.html','w+') as i:
+			for t in template:
+				i.write(t)
 
 class Server:
 
@@ -161,4 +162,4 @@ if __name__ == '__main__':
 
 	apps = Apps()
 	server = Server()
-	server.launch(8000)
+	#server.launch(8001)
