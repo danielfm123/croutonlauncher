@@ -85,8 +85,8 @@ class Apps:
 		self.action['winMode'] = {'type': 'param',
 								  'attr': 'newAppMode',
 								  'val':'winMode'}
-		html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#desktopModal">Launch Desktop</li> \n'
 		html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#optionModal">Options</li>\n'
+		#html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#desktopModal">Launch Desktop</li> \n'
 
 		for n in range(len(template)):
 			if(template[n] == '@apps@\n'):
@@ -162,4 +162,4 @@ if __name__ == '__main__':
 
 	apps = Apps()
 	server = Server()
-	#server.launch(8001)
+	server.launch(8000)
