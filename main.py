@@ -74,10 +74,9 @@ class Apps:
 			html_items = html_items + \
 				"<li class ='list-group-item' > " \
 				"<a class ='name' href='index.html?id={id}' onclick='closeWindow()'> " \
-				"<img class ='icon' height='48' width='48' src='{Icon}' >" \
+				"<img class ='icon' height='32' width='32' src='{Icon}' >" \
 				"{Name}" \
 				"</a></li> \n".format_map(app)
-				#"< li > < a class ='name' href='index.html?id=0' onclick='closeWindow()' > < img class ='icon' height='48' width='48' src='system/usr/share/icons/hicolor/48x48/apps/Thunar.png' > Bulk Rename < / a > < / li >"
 
 		self.action['tabMode'] = {'type': 'param',
 								  'attr': 'newAppMode',
@@ -85,7 +84,7 @@ class Apps:
 		self.action['winMode'] = {'type': 'param',
 								  'attr': 'newAppMode',
 								  'val':'winMode'}
-		html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#optionModal">Options</li>\n'
+		html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#optionModal">Launch Options</li>\n'
 		#html_items = html_items + '<li class="list-group-item" data-toggle="modal" data-target="#desktopModal">Launch Desktop</li> \n'
 
 		for n in range(len(template)):
@@ -119,6 +118,7 @@ class Server:
 						command_line = 'xiwi ' + action['Exec']
 					elif options['newAppMode'] == 'tabMode':
 						command_line = 'xiwi -T ' + action['Exec']
+					print(command_line)
 					os.system(command_line+'&')
 				elif action['type'] == 'param':
 					attr = action['attr']
@@ -126,6 +126,7 @@ class Server:
 					options[attr] = val
 					with open('options.json', 'w') as file:
 						file.writelines(json.dumps(options))
+					print('parameters updated')
 
 			http.server.SimpleHTTPRequestHandler.do_GET(self)
 
@@ -162,3 +163,4 @@ if __name__ == '__main__':
 
 	apps = Apps()
 	server = Server()
+	server.launch(8000)
