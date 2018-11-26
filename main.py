@@ -38,23 +38,38 @@ class Apps:
 		entrys = [entryhandler.DesktopEntry(filename=file) for file in files]
 		entrys = sorted(entrys, key = lambda e: e.getName().lower())
 		id=0
+		executables = ["/bin/htop",'"/usr/NX/bin/nxplayer" --recording','"/usr/NX/bin/nxplayer" --session']
+		names = ['NoMachine Service']
 		for entry in entrys:
 			name =  entry.getName()
 			#print(name)
 			iconPath = str(ic.getIconPath(entry.getIcon()))
 			executable = entry.getExec().split('%',1)[0]
+			added = executable in executables or name in names
 			try:
 				isTerminal = entry.content['Desktop Entry']['Terminal'] == 'true'
 			except:
 				isTerminal = False
+			try:
+				nodisplay = entry.content['Desktop Entry']['NoDisplay'] == 'true'
+			except:
+				nodisplay = False
+			try:
+				categories = entry.content['Desktop Entry']['Categories']
+				fobiden_cat = bool(re.search('Settings|System',categories))
+			except:
+				fobiden_cat = False
 			if None != iconPath and bool(re.search("png$|svg$",iconPath)) and \
 					not bool(re.search("sbin|pkexec|^none", entry.getExec())) and \
-					not isTerminal:
+					not isTerminal and \
+					not nodisplay and not added and not fobiden_cat:
 				self.action[str(id)] = {'Name':name,
 									  'Icon':'system' + iconPath,
 									  'Exec': executable,
 									  'id':str(id),
 									  'type': 'app'}
+				executables = executables + [executable]
+				names = names + [name]
 				id = id + 1
 
 		html_items = ""
@@ -63,7 +78,7 @@ class Apps:
 			app = self.action[str(app)]
 			html_items = html_items + \
 				"<li class ='list-group-item' > " \
-				"<a class ='name' href='index.html?id={id}' onclick='closeWindow()'> " \
+				"<a class ='name' href='index.html?id={id}' onclick='closeWindow()' run='{Exec}'> " \
 				"<img class ='icon' height='32' width='32' src='{Icon}' >" \
 				"{Name}" \
 				"</a></li> \n".format_map(app)
@@ -180,4 +195,4 @@ if __name__ == '__main__':
 
 	apps = Apps()
 	server = Server()
-	server.launch(8000)
+	server.launch(8001)
