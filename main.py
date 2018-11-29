@@ -98,13 +98,13 @@ class Apps:
 								  'val':'winMode'}
 		self.action['kde'] = {'type': 'param',
 								  'attr': 'desktop',
-								  'val':'startkde'}
+								  'val':'startkde -X xiwi'}
 		self.action['xfce4'] = {'type': 'param',
 								  'attr': 'desktop',
-								  'val':'startxfce4'}
+								  'val':'startxfce4 -X xiwi'}
 		self.action['gnome'] = {'type': 'param',
 								  'attr': 'desktop',
-								  'val':'startgnome'}
+								  'val':'startgnome -X xiwi'}
 		self.action['startx'] = {'type': 'startx'}
 
 		with open('index_template.html','r') as t:
@@ -156,7 +156,7 @@ class Server:
 					print('parameters updated')
 				elif action['type'] == 'startx':
 					print('Launching Desktop...')
-					command_line = 'xiwi ' + options['desktop']
+					command_line = options['desktop']
 					print(command_line)
 					os.system(command_line + '&')
 
@@ -195,4 +195,4 @@ if __name__ == '__main__':
 
 	apps = Apps()
 	server = Server()
-	server.launch(8000)
+	server.launch(8001)
