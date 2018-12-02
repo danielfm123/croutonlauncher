@@ -1,6 +1,6 @@
 # [Video of the result](https://www.youtube.com/watch?v=z-rkn5SXD4k)
 
-# Requerimients
+# Requirements
 
 Having the chromebook in developer mode and crouton executable on Downloads folder https://github.com/dnschneid/crouton
 
@@ -44,10 +44,10 @@ sudo chmod 755 /opt/croutonlauncher
 /opt/croutonlauncher/main.py
 ```
 
-6. open localhost:8000 or launche the chrome extension.
-I Recomend to place the extension pined on the menu and configure as not a tab.
+6. open http://localhost:8000 or launch the chrome extension.
+I Recomend to place the extension pinned to the menu and configure as not a tab.
 
-If you just want to launch it from shell and not autostarting the menu,the command to launch from shell would be
+If you just want to launch it from shell and not autostart the menu,the command to launch from shell would be
 ```
 sudo enter-chroot /opt/croutonlauncher/main.py
 ```
@@ -81,6 +81,6 @@ sudo cp ~/Downloads/autostart/local/crouton.init /usr/local
 sudo cp ~/Downloads/autostart/init/crouton.conf /etc/init
 sudo cp ~/Downloads/autostart/init/mnt-crouton.conf /etc/init
 ```
-Now you can delete Donwnloads/autostart
+Now you can delete Downloads/autostart
 
-6. restart and proffit from port 8000 or crouton extension
+6. restart and profit from http://localhost:8000 or crouton extension
