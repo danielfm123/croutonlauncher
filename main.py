@@ -156,7 +156,10 @@ class Server:
 					print('parameters updated')
 				elif action['type'] == 'startx':
 					print('Launching Desktop...')
-					command_line = options['desktop']
+					if options['newAppMode'] == 'winMode':
+						command_line = 'xiwi ' + options['desktop']
+					else:
+						command_line = 'xiwi -T ' + options['desktop']
 					print(command_line)
 					os.system(command_line + '&')
 
