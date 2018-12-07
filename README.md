@@ -44,10 +44,18 @@ sudo chmod 755 /opt/croutonlauncher
 /opt/croutonlauncher/main.py
 ```
 
-6. open http://localhost:8000 or launch the chrome extension.
+6. Open with chrome http://localhost:8000 , the menu should be visible as a website.
+
+7. Instal the extension
+First put it in the downloads folder with the command:
+```
+cp /opt/croutonlauncher/CroutonLauncher-Chrome.crx  ~/Downloads/
+```
+Then 3 drots menu - more tools - extensions , check developer mode is turned on and drag the crx file from Downloads the the extesions menu.
+
 I Recomend to place the extension pinned to the menu and configure as not a tab.
 
-If you just want to launch it from shell and not autostart the menu,the command to launch from shell would be
+If you just want to launch the server from shell and not autostart the menu,the command to launch from shell would be
 ```
 sudo enter-chroot /opt/croutonlauncher/main.py
 ```
