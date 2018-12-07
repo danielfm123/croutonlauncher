@@ -91,4 +91,4 @@ sudo cp ~/Downloads/autostart/init/mnt-crouton.conf /etc/init
 ```
 Now you can delete Downloads/autostart
 
-6. restart and profit from http://localhost:8000 or crouton extension
+6. restart and profit from http://localhost:8000 or crouton launcher extension
