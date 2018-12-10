@@ -2,7 +2,7 @@
 
 # Requirements
 
-Having the chromebook in developer mode and crouton executable on Downloads folder https://github.com/dnschneid/crouton
+Having the chromebook in developer mode and crouton executable in Downloads folder https://github.com/dnschneid/crouton
 
 I installed with: sudo sh ~/Downloads/crouton -t xiwi,extension,keyboard,cli-extra -r bionic
 
@@ -12,7 +12,7 @@ fork from https://github.com/jmaris/croutonlauncher
 
 ## Run Crouton apps as normal ChromeOS tabs on boot
 
-This was tested using crouton installed with this commands:
+This was tested using crouton installed with these commands:
 open a terminal with ctrl + alt + t
 ```
 shell
@@ -21,7 +21,7 @@ sudo sh ~/Downloads/crouton -t xiwi,keyboard,extension,cli-extra,audio -r bionic
 
 ## Install Menu:
 
-0.enter to the chroot
+0. Enter the chroot
 ```
 sudo enter-chroot
 ```
@@ -51,11 +51,11 @@ First put it in the downloads folder with the command:
 ```
 cp /opt/croutonlauncher/CroutonLauncher-Chrome.crx  ~/Downloads/
 ```
-Then 3 drots menu - more tools - extensions , check developer mode is turned on and drag the crx file from Downloads the the extesions menu.
+Then open the 3 dots menu - more tools - extensions , check developer mode is turned on and drag the crx file from Downloads the the extesions menu.
 
-I Recomend to place the extension pinned to the menu and configure as not a tab.
+I recommend placing the extension pinned to the menu and configure as not a tab.
 
-If you just want to launch the server from shell and not autostart the menu,the command to launch from shell would be
+If you just want to launch the server from shell and not autostart the menu, the command to launch from shell would be
 ```
 sudo enter-chroot /opt/croutonlauncher/main.py
 ```
